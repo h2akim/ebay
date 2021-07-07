@@ -41,6 +41,7 @@ class Grant extends Request
             'scope' => urlencode(implode($scopeList)),
             'prompt' => 'login'
         ];
+        
         return (string) new Endpoint($this->client->getApiEndpoint(), 'oauth2/authorize', $query);
     }
 
