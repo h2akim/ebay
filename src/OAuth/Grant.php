@@ -12,7 +12,7 @@ class Grant extends Request
         $credentials = base64_encode(sprintf('%s:%s', $clientId, $clientSecret));
         $body = [
             'grant_type' => 'client_credentials',
-            'scope' => urlencode(implode($scopeList))
+            'scope' => urlencode(implode(',', $scopeList))
         ];
         
         return $this->sendGrantRequest($credentials, $body);
@@ -38,7 +38,7 @@ class Grant extends Request
             'redirect_uri' => $redirectUri,
             'response_type' => 'code',
             'state' => $state,
-            'scope' => urlencode(implode($scopeList)),
+            'scope' => urlencode(implode(',', $scopeList)),
             'prompt' => 'login'
         ];
         
