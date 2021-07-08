@@ -3,6 +3,7 @@
 namespace Ebay;
 
 use Http\Client\HttpClient;
+use InvalidArgumentException;
 use Laravie\Codex\Discovery;
 
 class Client extends \Laravie\Codex\Client
@@ -15,7 +16,15 @@ class Client extends \Laravie\Codex\Client
         'v1' => 'One'
     ];
 
+    protected $isSandbox = false;
+
     protected $apiEndpoint = 'https://api.ebay.com';
+
+    protected $sandboxApiEndpoint = 'https://api.sandbox.ebay.com';
+
+    protected $authorizationEndpoint = 'https://auth.ebay.com';
+
+    protected $sandboxAuthorizationEndpoint = 'https://auth.sandbox.ebay.com';
 
     public function __construct(HttpClient $http, string $marketplaceId, string $accessToken)
     {
@@ -37,9 +46,16 @@ class Client extends \Laravie\Codex\Client
         return $this;
     }
 
-    final public function sandbox(): self
+    final public function useSandbox(): self
     {
-        return $this->useCustomApiEndpoint('https://api.sandbox.ebay.com');
+        $this->isSandbox = true;
+
+        return $this->useCustomApiEndpoint($this->sandboxApiEndpoint);
+    }
+
+    final public function getAuthorizationEndpoint()
+    {
+        return $this->isSandbox ? $this->sandboxAuthorizationEndpoint : $this->authorizationEndpoint;
     }
 
     final public function oauth()
@@ -48,24 +64,51 @@ class Client extends \Laravie\Codex\Client
         return $this->via(new $class($this));
     }
 
-    public function sell(string $resource, $version)
+    public function sell(string $resource, ?string $version = null)
     {
-        return $this->uses(sprintf('%s.%s', 'Sell', $resource), $version);
+        return $this->uses(sprintf('%s.%s', 'Sell', ucfirst($resource)), $version);
     }
 
-    public function buy(string $resource, $version)
+    public function buy(string $resource, ?string $version = null)
     {
-        return $this->uses(sprintf('%s.%s', 'Buy', $resource), $version);
+        return $this->uses(sprintf('%s.%s', 'Buy', ucfirst($resource)), $version);
     }
 
-    public function commerce(string $resource, $version)
+    public function commerce(string $resource, ?string $version = null)
     {
-        return $this->uses(sprintf('%s.%s', 'Commerce', $resource), $version);
+        return $this->uses(sprintf('%s.%s', 'Commerce', ucfirst($resource)), $version);
     }
 
-    public function developer(string $resource, $version)
+    public function developer(string $resource, ?string $version = null)
     {
-        return $this->uses(sprintf('%s.%s', 'Developer', $resource), $version);
+        return $this->uses(sprintf('%s.%s', 'Developer', ucfirst($resource)), $version);
+    }
+
+    /**
+     * Get versioned resource (service).
+     *
+     * @param  string  $service
+     * @param  string|null  $version
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return \Laravie\Codex\Contracts\Request
+     */
+    public function uses(string $service, ?string $version = null): \Laravie\Codex\Contracts\Request
+    {
+        if (\is_null($version) || ! \array_key_exists($version, $this->supportedVersions)) {
+            $version = $this->defaultVersion;
+        }
+        $splitNames = explode('.', $service);
+        $splitNames[0] = $splitNames[0].'\\'.$this->supportedVersions[$version];
+        $name = implode('\\', $splitNames);
+        $class = sprintf('%s\%s', $this->getResourceNamespace(), $name);
+        
+        if (! class_exists($class)) {
+            throw new InvalidArgumentException("Resource [{$service}] for version [{$version}] is not available.");
+        }
+
+        return $this->via(new $class($this));
     }
 
     protected function getResourceNamespace(): string

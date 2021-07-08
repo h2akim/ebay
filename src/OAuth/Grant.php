@@ -32,7 +32,7 @@ class Grant extends Request
 
     public function getAuthorizeUrl(string $clientId, string $redirectUri, string $state, array $scopeList)
     {
-        $this->client->useCustomApiEndpoint('https://auth.sandbox.ebay.com');
+        $this->client->useCustomApiEndpoint($this->client->getAuthorizationEndpoint());
         $query = [
             'client_id' => $clientId,
             'redirect_uri' => $redirectUri,
