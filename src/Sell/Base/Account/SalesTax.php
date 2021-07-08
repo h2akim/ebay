@@ -1,11 +1,11 @@
 <?php
 
-namespace Ebay\Sell\One\Account;
+namespace Ebay\Sell\Base\Account;
 
-use Ebay\Sell\Base\Account\SalexTax as Request;
+use Ebay\Request;
 use Laravie\Codex\Contracts\Response;
 
-class SalesTax extends Request
+abstract class SalesTax extends Request
 {
     public function list(): Response
     { /** */

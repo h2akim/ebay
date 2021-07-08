@@ -1,11 +1,11 @@
 <?php
 
-namespace Ebay\Sell\One\Account;
+namespace Ebay\Sell\Base\Account;
 
-use Ebay\Sell\Base\Account\ReturnPolicy as Request;
+use Ebay\Request;
 use Laravie\Codex\Contracts\Response;
 
-class ReturnPolicy extends Request
+abstract class PaymentPolicy extends Request
 {
     public function list(): Response
     { /** */

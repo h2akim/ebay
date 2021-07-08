@@ -1,6 +1,6 @@
 <?php
 
-namespace Ebay\Sell;
+namespace Ebay\Sell\Base;
 
 use Ebay\Request;
 

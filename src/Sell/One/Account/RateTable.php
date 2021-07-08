@@ -2,11 +2,12 @@
 
 namespace Ebay\Sell\One\Account;
 
-use Ebay\Request;
+use Ebay\Sell\Base\Account\RateTable as Request;
+use Laravie\Codex\Contracts\Response;
 
 class RateTable extends Request
 {
-    public function list()
+    public function list(): Response
     { /** */
     }
 }

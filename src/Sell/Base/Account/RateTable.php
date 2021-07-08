@@ -1,11 +1,11 @@
 <?php
 
-namespace Ebay\Sell\One\Account;
+namespace Ebay\Sell\Base\Account;
 
-use Ebay\Sell\Base\Account\KYC as Request;
+use Ebay\Request;
 use Laravie\Codex\Contracts\Response;
 
-class KYC extends Request
+abstract class RateTable extends Request
 {
     public function list(): Response
     { /** */
