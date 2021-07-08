@@ -2,7 +2,7 @@
 
 namespace Ebay\Sell\One;
 
-use Ebay\Sell\Account as SellAccount;
+use Ebay\Sell\Base\Account as SellAccount;
 
 class Account extends SellAccount
 {
