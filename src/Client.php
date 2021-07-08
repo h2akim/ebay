@@ -55,17 +55,17 @@ class Client extends \Laravie\Codex\Client
 
     public function buy(string $resource, $version)
     {
-        return $this->uses(sprintf('%s.%s', 'Sell', $resource), $version);
+        return $this->uses(sprintf('%s.%s', 'Buy', $resource), $version);
     }
 
     public function commerce(string $resource, $version)
     {
-        return $this->uses(sprintf('%s.%s', 'Sell', $resource), $version);
+        return $this->uses(sprintf('%s.%s', 'Commerce', $resource), $version);
     }
 
     public function developer(string $resource, $version)
     {
-        return $this->uses(sprintf('%s.%s', 'Sell', $resource), $version);
+        return $this->uses(sprintf('%s.%s', 'Developer', $resource), $version);
     }
 
     protected function getResourceNamespace(): string
