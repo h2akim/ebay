@@ -29,8 +29,8 @@ class Client extends \Laravie\Codex\Client
     public function __construct(HttpClient $http, string $marketplaceId, string $accessToken)
     {
         $this->http = $http;
-        $this->marketplaceId = $marketplaceId;
-        
+
+        $this->setMarketplace($marketplaceId);
         $this->setAccessToken($accessToken);
     }
 
@@ -42,6 +42,21 @@ class Client extends \Laravie\Codex\Client
     final public function setAccessToken(string $accessToken)
     {
         $this->accessToken = $accessToken;
+
+        return $this;
+    }
+
+    final public function setMarketplace(string $marketplaceId)
+    {
+        if (empty($marketplaceId)) {
+            return $this;
+        }
+
+        if (! Marketplace::isSupported($marketplaceId)) {
+            throw new InvalidArgumentException("Invalid Marketplace ID [{$marketplaceId}]");
+        }
+
+        $this->marketplaceId = $marketplaceId;
 
         return $this;
     }
