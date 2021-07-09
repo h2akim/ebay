@@ -2,39 +2,44 @@
 
 namespace Ebay\OAuth;
 
-use Ebay\Request;
 use Laravie\Codex\Common\Endpoint;
+use Laravie\Codex\Contracts\Filterable;
+use Laravie\Codex\Filter\WithSanitizer;
+use RuntimeException;
 
-class Grant extends Request
+class Grant extends \Laravie\Codex\Request implements Filterable
 {
-    public function clientCredentialsGrant(string $clientId, string $clientSecret, array $scopeList)
+    use WithSanitizer;
+
+    public function clientCredentialsGrant(?array $scopeList = [])
     {
-        $credentials = base64_encode(sprintf('%s:%s', $clientId, $clientSecret));
+        $credentials = base64_encode(sprintf('%s:%s', $this->client->getClientId(), $this->client->getClientSecret()));
         $body = [
             'grant_type' => 'client_credentials',
             'scope' => implode(' ', $scopeList)
         ];
-        
-        return $this->sendGrantRequest($credentials, $body);
+        $this->sendGrantRequest($credentials, $body);
+        return $this->client;
     }
 
-    public function authorizationCodeGrant(string $clientId, string $clientSecret, string $authorizationCode, string $redirectUri)
+    public function authorizationCodeGrant(string $authorizationCode, string $redirectUri)
     {
-        $credentials = base64_encode(sprintf('%s:%s', $clientId, $clientSecret));
+        $credentials = base64_encode(sprintf('%s:%s', $this->client->getClientId(), $this->client->getClientSecret()));
         $body = [
             'grant_type' => 'authorization_code',
             'code' => $authorizationCode,
             'redirect_uri' => $redirectUri
         ];
         
-        return $this->sendGrantRequest($credentials, $body);
+        $this->sendGrantRequest($credentials, $body);
+        return $this->client;
     }
 
-    public function getAuthorizeUrl(string $clientId, string $redirectUri, string $state, array $scopeList)
+    public function getAuthorizeUrl(string $redirectUri, string $state, array $scopeList)
     {
         $this->client->useCustomApiEndpoint($this->client->getAuthorizationEndpoint());
         $query = [
-            'client_id' => $clientId,
+            'client_id' => $this->client->getClientId(),
             'redirect_uri' => $redirectUri,
             'response_type' => 'code',
             'state' => $state,
@@ -50,6 +55,11 @@ class Grant extends Request
         return $this->send('POST', 'identity/v1/oauth2/token', [
             'Content-Type' => 'application/x-www-form-urlencoded',
             'Authorization' => 'Basic '.$credentials
-        ], $body);
+        ], $body)->validateWith(function ($statusCode, $response) {
+            if ($statusCode !== 200) {
+                throw new RuntimeException('Failed to generate access token');
+            }
+            $this->client->setAccessToken($response->toArray()['access_token']);
+        });
     }
 }

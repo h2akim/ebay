@@ -8,4 +8,6 @@ use Laravie\Codex\Filter\WithSanitizer;
 abstract class Request extends \Laravie\Codex\Request implements Filterable
 {
     use WithSanitizer;
+
+    protected $apiPath = '';
 }
