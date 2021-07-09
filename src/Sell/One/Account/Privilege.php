@@ -7,7 +7,10 @@ use Laravie\Codex\Contracts\Response;
 
 class Privilege extends Request
 {
-    public function list(): Response
-    { /** */
-    }
+    /**
+     * Version namespace.
+     *
+     * @var string
+     */
+    protected $version = 'v1';
 }

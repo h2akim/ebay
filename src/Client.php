@@ -27,22 +27,19 @@ class Client extends \Laravie\Codex\Client
     protected $sandboxApiEndpoint = 'https://api.sandbox.ebay.com';
     protected $sandboxAuthorizationEndpoint = 'https://auth.sandbox.ebay.com';
 
-    public function __construct(HttpClient $http, ?string $clientId, ?string $clientSecret)
+    public function __construct(HttpClient $http)
     {
         $this->http = $http;
-
-        $this->setClientId($clientId);
-        $this->setClientSecret($clientSecret);
     }
 
     public static function make(?string $clientId = '', ?string $clientSecret = '')
     {
-        return new static(Discovery::client(), $clientId, $clientSecret);
+        return (new static(Discovery::client()))->setClientId($clientId)->setClientSecret($clientSecret);
     }
 
     public static function token(string $accessToken)
     {
-        return (new static(Discovery::client(), null, null))->setAccessToken($accessToken);
+        return (new static(Discovery::client()))->setAccessToken($accessToken);
     }
 
     final public function setMarketplace(string $marketplaceId)
@@ -101,12 +98,6 @@ class Client extends \Laravie\Codex\Client
     final public function developer(string $resource, ?string $version = null)
     {
         return $this->uses(sprintf('%s.%s', 'Developer', ucfirst($resource)), $version);
-    }
-
-    final protected function prepareRequestHeaders(array $headers = []): array
-    {
-        $authorization = ! empty($this->getAccessToken()) ? [ 'Authorization' => 'Bearer '.$this->getAccessToken() ] : [];
-        return array_merge($headers, $authorization);
     }
 
     /**

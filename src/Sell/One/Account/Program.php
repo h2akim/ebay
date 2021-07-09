@@ -7,13 +7,10 @@ use Laravie\Codex\Contracts\Response;
 
 class FulfillmentPolicy extends Request
 {
-    public function getOptedInPrograms(): Response
-    { /** */
-    }
-    public function optIn(): Response
-    { /** */
-    }
-    public function optOut(): Response
-    { /** */
-    }
+    /**
+     * Version namespace.
+     *
+     * @var string
+     */
+    protected $version = 'v1';
 }

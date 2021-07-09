@@ -7,10 +7,10 @@ use Laravie\Codex\Contracts\Response;
 
 class PaymentsProgram extends Request
 {
-    public function get(string $marketplaceId, string $paymentProgramType): Response
-    { /** */
-    }
-    public function getOnboarding(string $marketplaceId, string $paymentProgramType): Response
-    { /** */
-    }
+    /**
+     * Version namespace.
+     *
+     * @var string
+     */
+    protected $version = 'v1';
 }

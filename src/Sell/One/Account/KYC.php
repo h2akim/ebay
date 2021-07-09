@@ -7,7 +7,10 @@ use Laravie\Codex\Contracts\Response;
 
 class KYC extends Request
 {
-    public function list(): Response
-    { /** */
-    }
+    /**
+     * Version namespace.
+     *
+     * @var string
+     */
+    protected $version = 'v1';
 }
