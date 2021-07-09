@@ -1,15 +1,10 @@
 <?php
 
-namespace Ebay\Sell\One;
+namespace Ebay\Sell\Base;
 
-use Ebay\Sell\Base\Analytics as BaseAnalytics;
+use Ebay\Request;
 
-class Analytics extends BaseAnalytics
+abstract class Analytics extends Request
 {
-    /**
-     * Version namespace.
-     *
-     * @var string
-     */
-    protected $version = 'v1';
+    //
 }

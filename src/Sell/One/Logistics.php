@@ -1,15 +1,10 @@
 <?php
 
-namespace Ebay\Sell\One;
+namespace Ebay\Sell\Base;
 
-use Ebay\Sell\Base\Logistics as BaseLogistics;
+use Ebay\Request;
 
-class Logistics extends BaseLogistics
+abstract class Logistics extends Request
 {
-    /**
-     * Version namespace.
-     *
-     * @var string
-     */
-    protected $version = 'v1';
+    //
 }

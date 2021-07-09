@@ -1,15 +1,10 @@
 <?php
 
-namespace Ebay\Sell\One;
+namespace Ebay\Sell\Base;
 
-use Ebay\Sell\Base\Compliance as BaseCompliance;
+use Ebay\Request;
 
-class Compliance extends BaseCompliance
+abstract class Compliance extends Request
 {
-    /**
-     * Version namespace.
-     *
-     * @var string
-     */
-    protected $version = 'v1';
+    //
 }

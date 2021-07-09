@@ -1,15 +1,10 @@
 <?php
 
-namespace Ebay\Sell\One;
+namespace Ebay\Sell\Base;
 
-use Ebay\Sell\Base\Marketing as BaseMarketing;
+use Ebay\Request;
 
-class Marketing extends BaseMarketing
+abstract class Marketing extends Request
 {
-    /**
-     * Version namespace.
-     *
-     * @var string
-     */
-    protected $version = 'v1';
+    //
 }

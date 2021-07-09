@@ -1,16 +1,19 @@
 <?php
 
-namespace Ebay\Sell\One\Account;
+namespace Ebay\Sell\Base\Account;
 
-use Ebay\Sell\Base\Account\PaymentsProgram as Request;
+use Ebay\Sell\Base\Account as Request;
 use Laravie\Codex\Contracts\Response;
 
 class PaymentsProgram extends Request
 {
-    /**
-     * Version namespace.
-     *
-     * @var string
-     */
-    protected $version = 'v1';
+    public function get(string $marketplaceId, string $paymentProgramType = 'EBAY_PAYMENTS'): Response
+    {
+        return $this->send('GET', "payments_program/{$marketplaceId}/{$paymentProgramType}", $this->getApiHeaders());
+    }
+
+    public function getOnboarding(string $marketplaceId, string $paymentProgramType = 'EBAY_PAYMENTS'): Response
+    {
+        return $this->send('GET', "payments_program/{$marketplaceId}/{$paymentProgramType}/onboarding", $this->getApiHeaders());
+    }
 }

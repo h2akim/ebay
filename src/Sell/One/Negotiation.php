@@ -1,15 +1,10 @@
 <?php
 
-namespace Ebay\Sell\One;
+namespace Ebay\Sell\Base;
 
-use Ebay\Sell\Base\Negotiation as BaseNegotiation;
+use Ebay\Request;
 
-class Negotiation extends BaseNegotiation
+abstract class Negotiation extends Request
 {
-    /**
-     * Version namespace.
-     *
-     * @var string
-     */
-    protected $version = 'v1';
+    //
 }

@@ -1,15 +1,10 @@
 <?php
 
-namespace Ebay\Sell\One;
+namespace Ebay\Sell\Base;
 
-use Ebay\Sell\Base\Fulfillment as BaseFulfillment;
+use Ebay\Request;
 
-class Fulfillment extends BaseFulfillment
+abstract class Fulfillment extends Request
 {
-    /**
-     * Version namespace.
-     *
-     * @var string
-     */
-    protected $version = 'v1';
+    //
 }

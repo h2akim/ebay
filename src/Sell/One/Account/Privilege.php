@@ -1,16 +1,14 @@
 <?php
 
-namespace Ebay\Sell\One\Account;
+namespace Ebay\Sell\Base\Account;
 
-use Ebay\Sell\Base\Account\Privilege as Request;
+use Ebay\Sell\Base\Account as Request;
 use Laravie\Codex\Contracts\Response;
 
 class Privilege extends Request
 {
-    /**
-     * Version namespace.
-     *
-     * @var string
-     */
-    protected $version = 'v1';
+    public function list(): Response
+    {
+        return $this->send('GET', 'privilege', $this->getApiHeaders());
+    }
 }

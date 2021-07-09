@@ -1,16 +1,15 @@
 <?php
 
-namespace Ebay\Sell\One\Account;
+namespace Ebay\Sell\Base\Account;
 
-use Ebay\Sell\Base\Account\RateTable as Request;
+use Ebay\Sell\Base\Account as Request;
 use Laravie\Codex\Contracts\Response;
 
 class RateTable extends Request
 {
-    /**
-     * Version namespace.
-     *
-     * @var string
-     */
-    protected $version = 'v1';
+    public function list(string $countryCode = null): Response
+    {
+        $query = ! \is_null($countryCode) ? [ 'country_code' => $countryCode ] : [];
+        return $this->send('GET', 'rate_table', $this->getApiHeaders(), $query);
+    }
 }
