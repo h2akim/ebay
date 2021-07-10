@@ -6,6 +6,7 @@ use Laravie\Codex\Contracts\Endpoint;
 
 trait SellTrait
 {
+    protected $rootApi = 'sell';
     /**
      * Get URI Endpoint.
      *
@@ -13,6 +14,6 @@ trait SellTrait
      */
     protected function getApiEndpoint($path = []): Endpoint
     {
-        return parent::getApiEndpoint([$this->apiPath, $this->getVersion(), $path]);
+        return parent::getApiEndpoint([$this->rootApi, $this->apiPath, $this->getVersion(), $path]);
     }
 }

@@ -8,7 +8,9 @@ use Ebay\Sell\Traits\SellTrait;
 class Account extends Request
 {
     use SellTrait;
-    protected $apiPath = 'sell/account';
+    
+    protected $apiPath = 'account';
+
     protected $version = 'v1';
 
     public function fulfillmentPolicy()
